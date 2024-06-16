@@ -1,0 +1,5 @@
+# Ignore static folder
+static/
+
+__pycache__/
+*.pyc
