@@ -1,5 +1,4 @@
 from model.schema_response import Response
-import logging
 from time import time
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from dependencies import (
@@ -12,20 +11,15 @@ from utils.deteksi import (
     detect_img
 )
 
-logging.basicConfig(level="INFO")
 router = APIRouter(tags=['detection'])
 
 async def endpoint_kue(document: UploadFile = File(...)):
     result = {}
     try:
         start_time = time()
-        logging.info("Start Detecting Image....")
         image_path = upload_file(document)
-        logging.info("image successfully uploaded")
         model = loadModel(MODEL_PATH)
-        logging.info("model successfully loaded")
         cake_name = detect_img(img_path=image_path, model=model, class_names=CLASS_NAMES)
-        logging.info("image is already detected")
         end_time = time()
         process_time = end_time - start_time
         result['nama_kue'] = cake_name
