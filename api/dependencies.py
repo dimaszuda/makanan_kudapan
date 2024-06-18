@@ -1,6 +1,8 @@
 import os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = "/Users/mac/Documents/DIMAS/CNN/makanan_kudapan/model/model.h5"
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / 'model' / 'model.h5'
 CLASS_NAMES = [
     'Dadar Gulung',
     'Kastengel',

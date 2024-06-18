@@ -87,6 +87,7 @@ def detect_img(img_path: Path, model, class_names: list) -> str:
         img = np.vstack([x])
         classes = model.predict(img, batch_size=10)
         class_name = class_names[np.argmax(classes)]
+        #TODO: add accuracy on each inference
         return class_name 
     except Exception as e:
         return None
