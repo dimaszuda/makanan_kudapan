@@ -1,3 +1,4 @@
+import os
 import sys
 import streamlit as st
 import tensorflow as tf
@@ -34,8 +35,13 @@ IMG_TYPE = [
     'webp',
 ]
 
-# model path
-MODEL = "/Users/mac/Documents/DIMAS/CNN/makanan_kudapan/model/model.h5"
+# Menentukan path relatif ke file model.h5
+MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.h5'
+
+# Mengubah ke path absolut jika diperlukan
+MODEL = MODEL_PATH.resolve()
+
+MODEL_DOCKER = os.getenv('MODEL_PATH', 'model/model.h5')
 
 # Title of streamlit application
 st.title("Deteksi Makanan Kudapan Indonesia")
@@ -60,7 +66,7 @@ def load_my_model(model_path: Path):
     
 st.write("Load and Use a TensorFlow Model in Streamlit")
 # Load the model
-model = load_my_model(MODEL)
+model = load_my_model(MODEL_DOCKER)
 
 image = st.file_uploader("Upload an image", type=IMG_TYPE)
 

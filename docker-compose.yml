@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+    volumes:
+      - ./model:/app/model
+      
+    environment:
+      - MODEL_PATH=/app/model/model.h5
+    ports:
+      - "8000:8000"
+    restart: always
+
+  dashboard:
+    build:
+      context: ./dashboard
+    volumes:
+      - ./model:/app/model
+    environment:
+      - MODEL_PATH=/app/model/model.h5
+    ports:
+      - "8501:8501"
+    restart: always

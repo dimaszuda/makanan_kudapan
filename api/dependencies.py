@@ -1,6 +1,13 @@
 import os
+from pathlib import Path
 
-MODEL_PATH = os.path.join("..", "model", "model.h5")
+# Menentukan path relatif ke file model.h5
+MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.h5'
+
+# Mengubah ke path absolut jika diperlukan
+MODEL_PATH = MODEL_PATH.resolve()
+
+MODEL_DOCKER = os.getenv('MODEL_PATH', 'model/model.h5')
 
 CLASS_NAMES = [
     'Dadar Gulung',

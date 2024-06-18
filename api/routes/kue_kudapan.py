@@ -1,8 +1,9 @@
-from model.schema_response import Response
+from schema.schema_response import Response
 from time import time
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from dependencies import (
     MODEL_PATH,
+    MODEL_DOCKER,
     CLASS_NAMES
 )
 from utils.deteksi import (
@@ -18,7 +19,7 @@ async def endpoint_kue(document: UploadFile = File(...)):
     try:
         start_time = time()
         image_path = upload_file(document)
-        model = loadModel(MODEL_PATH)
+        model = loadModel(MODEL_DOCKER) #TODO: separate between development and production MODEL_PATH
         cake_name = detect_img(img_path=image_path, model=model, class_names=CLASS_NAMES)
         end_time = time()
         process_time = end_time - start_time
