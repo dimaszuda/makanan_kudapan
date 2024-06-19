@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN touch /app/.dockerenv
+
 EXPOSE 8501
 
 CMD ["streamlit", "run", "app.py"]

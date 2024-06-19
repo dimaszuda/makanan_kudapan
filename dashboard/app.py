@@ -41,7 +41,11 @@ MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.h5'
 # Mengubah ke path absolut jika diperlukan
 MODEL = MODEL_PATH.resolve()
 
+# menentukan model path di container docker
 MODEL_DOCKER = os.getenv('MODEL_PATH', 'model/model.h5')
+
+# mengecek apakah aplikasi dijalankan di docker
+running_in_docker = os.path.exists('/app/.dockerenv')
 
 # Title of streamlit application
 st.title("Deteksi Makanan Kudapan Indonesia")
@@ -66,7 +70,10 @@ def load_my_model(model_path: Path):
     
 st.write("Load and Use a TensorFlow Model in Streamlit")
 # Load the model
-model = load_my_model(MODEL_DOCKER)
+if running_in_docker:
+    model = load_my_model(MODEL_DOCKER)
+else:
+    model = load_my_model(MODEL)
 
 image = st.file_uploader("Upload an image", type=IMG_TYPE)
 

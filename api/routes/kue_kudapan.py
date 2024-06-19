@@ -1,3 +1,4 @@
+import os
 from schema.schema_response import Response
 from time import time
 from fastapi import APIRouter, HTTPException, UploadFile, File
@@ -12,6 +13,7 @@ from utils.deteksi import (
     detect_img
 )
 
+running_in_docker = os.path.exists('/app/.dockerenv')
 router = APIRouter(tags=['detection'])
 
 async def endpoint_kue(document: UploadFile = File(...)):
@@ -19,7 +21,10 @@ async def endpoint_kue(document: UploadFile = File(...)):
     try:
         start_time = time()
         image_path = upload_file(document)
-        model = loadModel(MODEL_DOCKER) #TODO: separate between development and production MODEL_PATH
+        if running_in_docker:
+            model = loadModel(MODEL_DOCKER)
+        else:
+            model = loadModel(MODEL_PATH)
         cake_name = detect_img(img_path=image_path, model=model, class_names=CLASS_NAMES)
         end_time = time()
         process_time = end_time - start_time
